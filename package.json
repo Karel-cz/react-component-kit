@@ -1,0 +1,12 @@
+{
+  "name": "react-component-kit",
+  "private": true,
+  "workspaces": [
+    "library/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=apps/demo",
+    "build:ui": "npm run build --workspace=library/ui"
+  }
+}
