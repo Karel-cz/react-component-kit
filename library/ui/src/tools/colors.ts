@@ -1,32 +1,97 @@
 // 12 základních barev pro design systém
-export const colors = {
+const colors = {
   // Application background (default darker gray)
-  background: "#1f2937", // slate-800
+  background: {
+    color: "#1f2937",
+    key: "background" as const,
+  },
   // Elevated surfaces (cards, panels)
-  surface: "#111827", // slate-900
+  surface: {
+    color: "#111827",
+    key: "surface" as const,
+  },
 
   // Primary action color (buttons, links)
-  primary: "#2563eb",
-  primaryHover: "#1d4ed8",
-  primaryDark: "#1e40af",
+  primary: {
+    color: "#2563eb",
+    key: "primary" as const,
+  },
+  primaryHover: {
+    color: "#1d4ed8",
+    key: "primaryHover" as const,
+  },
+  primaryDark: {
+    color: "#1e40af",
+    key: "primaryDark" as const,
+  },
 
   // Informational / accent
-  info: "#06b6d4",
+  info: {
+    color: "#06b6d4",
+    key: "info" as const,
+  },
+  infoDark: {
+    color: "#0891b2",
+    key: "infoDark" as const,
+  },
 
   // Status colors
-  success: "#16a34a",
-  danger: "#ef4444",
-  warning: "#f59e0b",
+  success: {
+    color: "#16a34a",
+    key: "success" as const,
+  },
+  successDark: {
+    color: "#15803d",
+    key: "successDark" as const,
+  },
+  danger: {
+    color: "#ef4444",
+    key: "danger" as const,
+  },
+  dangerDark: {
+    color: "#dc2626",
+    key: "dangerDark" as const,
+  },
+  warning: {
+    color: "#f59e0b",
+    key: "warning" as const,
+  },
+  warningDark: {
+    color: "#d97706",
+    key: "warningDark" as const,
+  },
 
   // Typography / neutral
-  text: "#e6eef8",
-  muted: "#9ca3af",
+  text: {
+    color: "#e6eef8",
+    key: "text" as const,
+  },
+  muted: {
+    color: "#9ca3af",
+    key: "muted" as const,
+  },
 
   // UI outlines / borders
-  border: "#374151",
+  border: {
+    color: "#374151",
+    key: "border" as const,
+  },
 
   // Generic shadow color (RGBA string may still be used inline)
-  shadow: "rgba(2,6,23,0.08)",
+  shadow: {
+    color: "rgba(2,6,23,0.08)",
+    key: "shadow" as const,
+  },
 };
+
+export const colorsKeyList = [
+  colors.primary.key,
+  colors.success.key,
+  colors.danger.key,
+  colors.warning.key,
+  colors.info.key,
+] as const;
+
+export type ColorScheme = typeof colorsKeyList[number];
 
 export default colors;

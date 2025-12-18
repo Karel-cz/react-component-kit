@@ -1,6 +1,6 @@
 //@@viewOn:imports
 import React from "react";
-import colors from "../tools/colors";
+import colors, { type ColorScheme } from "../tools/colors";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -12,22 +12,24 @@ const Css = {
     removeDefaultStyle?: boolean,
     disabled?: boolean,
     pending?: boolean,
-    hover?: boolean,
-    focus?: boolean
-  ) => {
+    colorScheme: ColorScheme = "primary"
+  ): React.CSSProperties => {
     if (removeDefaultStyle) {
       return {};
     }
 
-    const primary = colors.primary; // modern blue token
-    const background = disabled
-      ? colors.surface
-      : pending
-      ? primary
-      : hover
-      ? colors.primaryDark
-      : primary;
-    const color = disabled ? colors.muted : colors.text;
+    const schemeColors = {
+      primary: { base: colors.primary.color, dark: colors.primaryDark.color, text: colors.text.color },
+      success: { base: colors.success.color, dark: colors.successDark.color, text: colors.text.color },
+      danger: { base: colors.danger.color, dark: colors.dangerDark.color, text: colors.text.color },
+      warning: { base: colors.warning.color, dark: colors.warningDark.color, text: colors.background.color },
+      info: { base: colors.info.color, dark: colors.infoDark.color, text: colors.background.color },
+    };
+
+    const scheme = schemeColors[colorScheme];
+    const isDisabled = disabled || pending;
+    const background = isDisabled ? colors.surface.color : scheme.base;
+    const textColor = isDisabled ? colors.muted.color : scheme.text;
 
     return {
       display: "inline-flex",
@@ -37,21 +39,71 @@ const Css = {
       border: "none",
       borderRadius: 8,
       background: background,
-      color: color,
-      cursor: disabled ? "not-allowed" : "pointer",
+      color: textColor,
+      cursor: isDisabled ? "not-allowed" : "pointer",
       fontWeight: 600,
-      boxShadow: focus ? "0 8px 20px rgba(37,99,235,0.15)" : "0 4px 10px rgba(2,6,23,0.08)",
-      transition: "transform 120ms ease, box-shadow 120ms ease, background 160ms ease",
-      transform: hover && !disabled ? "translateY(-1px)" : "none",
+      transition: "transform 120ms ease, background 160ms ease, color 160ms ease",
       outline: "none",
       WebkitTapHighlightColor: "transparent",
+      position: "relative",
     };
   },
+
+  buttonHover: (
+    removeDefaultStyle?: boolean,
+    disabled?: boolean,
+    pending?: boolean,
+    colorScheme: ColorScheme = "primary"
+  ): React.CSSProperties => {
+    if (removeDefaultStyle || disabled || pending) {
+      return {};
+    }
+
+    const schemeColors = {
+      primary: { dark: colors.primaryDark.color },
+      success: { dark: colors.successDark.color },
+      danger: { dark: colors.dangerDark.color },
+      warning: { dark: colors.warningDark.color },
+      info: { dark: colors.infoDark.color },
+    };
+
+    const scheme = schemeColors[colorScheme as ColorScheme];
+
+    return {
+      background: scheme.dark,
+      transform: "translateY(-1px)",
+    };
+  },
+
+  buttonFocus: (
+    removeDefaultStyle?: boolean,
+    disabled?: boolean,
+    pending?: boolean,
+  ): React.CSSProperties => {
+    if (removeDefaultStyle || disabled || pending) {
+      return {};
+    }
+
+    return {};
+  },
+
+  content: (isPending?: boolean): React.CSSProperties => ({
+    visibility: isPending ? "hidden" : "visible",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "0.5rem",
+  }),
+
+  spinnerContainer: (): React.CSSProperties => ({
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+  }),
 };
 //@@viewOff:css
 
 //@@viewOn:helpers
-
 //@@viewOff:helpers
 
 //@@viewOn:propsTypes
@@ -64,6 +116,10 @@ export type ButtonProps = {
   label?: string;
   tooltip?: string;
   isPending?: boolean;
+  colorScheme?: ColorScheme;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  icon?: React.ReactNode;
+  iconPosition?: "left" | "right";
 };
 //@@viewOff:propsTypes
 
@@ -76,14 +132,22 @@ const Button = ({
   type = "button",
   tooltip,
   isPending = false,
+  colorScheme = "primary",
+  onClick,
+  icon,
+  iconPosition = "left",
 }: ButtonProps) => {
   const [hover, setHover] = React.useState(false);
   const [focus, setFocus] = React.useState(false);
-  //@@viewOn:private
-  //@@viewOff:private
 
-  //@@viewOn:render
   const isDisabled = disabled || isPending;
+
+  const DefaultIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  );
 
   const Spinner = () => (
     <svg
@@ -110,11 +174,14 @@ const Button = ({
   );
 
   return (
-
     <button
       disabled={isDisabled}
       className={className}
-      style={Css.button(removeDefaultStyle, disabled, isPending, hover, focus)}
+      style={{
+        ...Css.button(removeDefaultStyle, disabled, isPending, colorScheme),
+        ...(hover && !isDisabled ? Css.buttonHover(removeDefaultStyle, disabled, isPending, colorScheme) : {}),
+        ...(focus && !isDisabled ? Css.buttonFocus(removeDefaultStyle, disabled, isPending) : {}),
+      }}
       type={type}
       title={tooltip}
       aria-label={tooltip ?? (typeof children === "string" ? children : undefined)}
@@ -123,10 +190,19 @@ const Button = ({
       onMouseLeave={() => setHover(false)}
       onFocus={() => setFocus(true)}
       onBlur={() => setFocus(false)}
+      onClick={onClick}
     >
-      {isPending ? <Spinner /> : (children || label)}
+      <span style={Css.content(isPending)}>
+        {iconPosition === "left" && (icon || <DefaultIcon />)}
+        {children || label}
+        {iconPosition === "right" && (icon || <DefaultIcon />)}
+      </span>
+      {isPending && (
+        <span style={Css.spinnerContainer()}>
+          <Spinner />
+        </span>
+      )}
     </button>
-
   );
   //@@viewOff:render
 };
