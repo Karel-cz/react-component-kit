@@ -5,5 +5,5 @@ export type ButtonProps = {
 }
 
 export const Button = () => {
-    return "sss"
+    return "<button>Button</button>"
 }
