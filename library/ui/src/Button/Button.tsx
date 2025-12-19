@@ -1,6 +1,7 @@
 //@@viewOn:imports
-import React from "react";
+import React , {useState}from "react";
 import colors, { type ColorScheme } from "../tools/colors";
+import type { ButtonProps } from "./Button.types";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -106,23 +107,6 @@ const Css = {
 //@@viewOn:helpers
 //@@viewOff:helpers
 
-//@@viewOn:propsTypes
-export type ButtonProps = {
-  children?: React.ReactNode;
-  disabled?: boolean;
-  className?: string;
-  removeDefaultStyle?: boolean;
-  type?: "button" | "submit" | "reset";
-  label?: string;
-  tooltip?: string;
-  isPending?: boolean;
-  colorScheme?: ColorScheme;
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  icon?: React.ReactNode;
-  iconPosition?: "left" | "right";
-};
-//@@viewOff:propsTypes
-
 const Button = ({
   children,
   label,
@@ -137,8 +121,8 @@ const Button = ({
   icon,
   iconPosition = "left",
 }: ButtonProps) => {
-  const [hover, setHover] = React.useState(false);
-  const [focus, setFocus] = React.useState(false);
+  const [hover, setHover] = useState(false);
+  const [focus, setFocus] = useState(false);
 
   const isDisabled = disabled || isPending;
 
