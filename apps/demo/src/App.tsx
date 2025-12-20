@@ -1,8 +1,12 @@
-import { Button } from "@react-component-kit/ui";
+import { Button, Pending } from "@react-component-kit/ui";
 
 function App() {
   return (
     <div style={{ padding: 40 }}>
+      <h1>Button Component Showcase</h1>
+      <Pending size={48} type="horizontal" />
+      <Pending size={48} type="circular" />
+
       <h1>Button Component Showcase</h1>
 
       {/* Color Schemes */}
@@ -49,11 +53,7 @@ function App() {
           >
             Right Icon
           </Button>
-          <Button
-            colorScheme="success"
-            icon={<span>✓</span>}
-            label="Save"
-          />
+          <Button colorScheme="success" icon={<span>✓</span>} label="Save" />
         </div>
       </section>
 
@@ -88,10 +88,7 @@ function App() {
       <section style={{ marginBottom: 40 }}>
         <h2>Events</h2>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-          <Button
-            colorScheme="primary"
-            onClick={() => alert("Clicked!")}
-          >
+          <Button colorScheme="primary" onClick={() => alert("Clicked!")}>
             Click Me
           </Button>
         </div>

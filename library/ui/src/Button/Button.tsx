@@ -2,6 +2,7 @@
 import React , {useState}from "react";
 import colors, { type ColorScheme } from "../tools/colors";
 import type { ButtonProps } from "./Button.types";
+import Pending from "../Pending/Pending";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -133,30 +134,8 @@ const Button = ({
     </svg>
   );
 
-  const Spinner = () => (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden="true"
-      focusable="false"
-      style={{ display: "block" }}
-    >
-      <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.25)" strokeWidth="4" />
-      <path d="M22 12a10 10 0 00-10-10" stroke="rgba(255,255,255,0.95)" strokeWidth="4" strokeLinecap="round">
-        <animateTransform
-          attributeName="transform"
-          type="rotate"
-          from="0 12 12"
-          to="360 12 12"
-          dur="0.9s"
-          repeatCount="indefinite"
-        />
-      </path>
-    </svg>
-  );
-
+  
+  //@@viewOn:render
   return (
     <button
       disabled={isDisabled}
@@ -183,7 +162,7 @@ const Button = ({
       </span>
       {isPending && (
         <span style={Css.spinnerContainer()}>
-          <Spinner />
+          <Pending />
         </span>
       )}
     </button>
