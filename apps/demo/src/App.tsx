@@ -1,4 +1,5 @@
-import { Button, Pending } from "@react-component-kit/ui";
+
+import { Button, Pending, Icon } from "@react-component-kit/ui";
 
 function App() {
   return (
@@ -6,6 +7,7 @@ function App() {
       <h1>Button Component Showcase</h1>
       <Pending size={48} type="horizontal" />
       <Pending size={48} type="circular" />
+      <Icon />
 
       <h1>Button Component Showcase</h1>
 
@@ -41,8 +43,8 @@ function App() {
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
           <Button
             colorScheme="primary"
-            icon={<span>⬅️</span>}
-            iconPosition="left"
+            icon={"mdi-account"}
+   
           >
             Left Icon
           </Button>

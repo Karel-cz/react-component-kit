@@ -10,6 +10,7 @@ const __dirname = path.dirname(__filename)
 export default defineConfig({
   plugins: [react()],
   resolve: {
+    dedupe: ["react", "react-dom"],
     alias: {
       // During local development, point the package name to the source files
       '@react-component-kit/ui': path.resolve(__dirname, '../../library/ui/src/index.ts'),
