@@ -2,7 +2,7 @@
 const colors = {
   // Application background (default darker gray)
   background: {
-    color: "#1f2937",
+    color: "#1b1d1fff",
     key: "background" as const,
   },
   // Elevated surfaces (cards, panels)
@@ -90,6 +90,8 @@ export const colorsKeyList = [
   colors.danger.key,
   colors.warning.key,
   colors.info.key,
+  colors.surface.key,
+  colors.background.key,
 ] as const;
 
 export type ColorScheme = typeof colorsKeyList[number];

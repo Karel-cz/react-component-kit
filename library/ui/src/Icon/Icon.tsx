@@ -60,13 +60,13 @@ function Icon({
       className={`inline-flex items-center gap-1 ${className || ""}`}
       onClick={onClick}
       title={tooltip}
-      style={{ cursor: onClick ? "pointer" : "default" }}
+      style={{ cursor: onClick ? "pointer" : "default", display: "flex", alignItems: "center" }}
     >
       <MdiIcon
         path={path}
         size={size}
         color={color}
-        style={removeDefaultStyle ? {} : { display: "inline-block" }}
+        style={removeDefaultStyle ? {} : { display: "flex" }}
       />
       {label && <span>{label}</span>}
     </span>
