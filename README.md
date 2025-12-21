@@ -15,4 +15,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 
 ---
 
-Author: [Karel-cz](https://github.com/melihbirim)
+Author: [Karel-cz](https://github.com/Karel-cz)
